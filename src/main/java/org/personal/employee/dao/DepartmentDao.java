@@ -2,20 +2,18 @@ package org.personal.employee.dao;
 
 import org.personal.employee.entity.Department;
 
+import java.sql.SQLException;
 import java.util.List;
-import java.util.Optional;
 
 public interface DepartmentDao {
 
-    Department save(Department department);
+    Department save(Department department) throws SQLException;
 
-    Department update(Department department);
+    Department update(Department department) throws SQLException;
 
-    List<Department> findAll();
+    List<Department> findAll() throws Exception;
 
-    void remove(Long id);
+    void remove(Long id) throws SQLException;
 
-    Optional<Department> findOne(Long id);
-
-    Department findOneDepartment(Long id);
+    Department findOne(Long id) throws SQLException;
 }

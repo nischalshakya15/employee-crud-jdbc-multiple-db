@@ -8,9 +8,9 @@ import org.personal.employee.entity.Department;
 import org.personal.employee.entity.Employee;
 import org.personal.employee.utils.CommandLineTable;
 
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.Scanner;
 
 public class EmployeeView {
@@ -36,69 +36,76 @@ public class EmployeeView {
         System.out.println("Enter salary: ");
         Double salary = scan.nextDouble();
         System.out.println("Select Department");
-        departmentDao.findAll().forEach(d -> {
-            System.out.println(d.getId() + " " + d.getName());
-        });
-        Long departmentId = scan.nextLong();
-        Optional<Department> department = departmentDao.findOne(departmentId);
-        if (department.isPresent()) {
-            Employee employee = new Employee(firstName, lastName, email, salary, department.get(), LocalDateTime.now(), null);
-            employeeDao.save(employee);
-            System.out.println("Employee created successfully.");
+
+        try {
+            departmentDao.findAll().forEach(d -> System.out.println(d.getId() + " " + d.getName()));
+            Long departmentId = scan.nextLong();
+            Department department = departmentDao.findOne(departmentId);
+            if (department != null) {
+                Employee employee = new Employee(firstName, lastName, email, salary, department, LocalDateTime.now(), null);
+                employee = employeeDao.save(employee);
+                System.out.println("Employee with id " + employee.getId() + " created successfully");
+            }
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
         }
     }
 
     private void update() {
         System.out.println("Enter an employee id: ");
         Long id = scan.nextLong();
-
-        Optional<Employee> updateEmployee = employeeDao.findOne(id);
-
-        if (updateEmployee.isPresent()) {
-            scan.nextLine();
-            System.out.println("Enter firstName: ");
-            String firstName = scan.nextLine();
-            System.out.println("Enter lastName: ");
-            String lastName = scan.nextLine();
-            System.out.println("Enter email: ");
-            String email = scan.nextLine();
-            System.out.println("Enter salary: ");
-            Double salary = scan.nextDouble();
-            System.out.println("Select Department");
-            departmentDao.findAll().forEach(d -> {
-                System.out.println(d.getId() + " " + d.getName());
-            });
-            Long departmentId = scan.nextLong();
-            Optional<Department> department = departmentDao.findOne(departmentId);
-            if (department.isPresent()) {
-                Employee employee = updateEmployee.get();
-                employee.setId(id);
-                employee.setFirstName(firstName);
-                employee.setLastName(lastName);
-                employee.setEmail(email);
-                employee.setSalary(salary);
-                employee.setDepartment(department.get());
-                employee.setUpdatedAt(LocalDateTime.now());
-                employeeDao.update(employee);
-                System.out.println("Department updated successfully");
+        try {
+            Employee updateEmployee = employeeDao.findOne(id);
+            if (updateEmployee != null) {
+                scan.nextLine();
+                System.out.println("Enter firstName: ");
+                String firstName = scan.nextLine();
+                System.out.println("Enter lastName: ");
+                String lastName = scan.nextLine();
+                System.out.println("Enter email: ");
+                String email = scan.nextLine();
+                System.out.println("Enter salary: ");
+                Double salary = scan.nextDouble();
+                System.out.println("Select Department");
+                departmentDao.findAll().forEach(d -> {
+                    System.out.println(d.getId() + " " + d.getName());
+                });
+                Long departmentId = scan.nextLong();
+                Department department = departmentDao.findOne(departmentId);
+                if (department != null) {
+                    updateEmployee.setId(id);
+                    updateEmployee.setFirstName(firstName);
+                    updateEmployee.setLastName(lastName);
+                    updateEmployee.setEmail(email);
+                    updateEmployee.setSalary(salary);
+                    updateEmployee.setDepartment(department);
+                    updateEmployee.setUpdatedAt(LocalDateTime.now());
+                    employeeDao.update(updateEmployee);
+                    System.out.println("Department updated successfully");
+                } else {
+                    System.out.println("Selected department is invalid");
+                }
             } else {
-                System.out.println("Selected department is invalid");
+                System.out.println("Employee doesn't exist");
             }
-        } else {
-            System.out.println("Employee doesn't exist");
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
         }
     }
 
     private void remove() {
         System.out.println("Enter an employee id: ");
         Long id = scan.nextLong();
-
-        Optional<Employee> employee = employeeDao.findOne(id);
-        if (employee.isPresent()) {
-            employeeDao.remove(id);
-            System.out.println("Employee removed successfully ");
-        } else {
-            System.out.println("Employee doesn't exist");
+        try {
+            Employee employee = employeeDao.findOne(id);
+            if (employee != null) {
+                employeeDao.remove(id);
+                System.out.println("Employee removed successfully ");
+            } else {
+                System.out.println("Employee doesn't exist");
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
         }
     }
 
@@ -107,17 +114,23 @@ public class EmployeeView {
         CommandLineTable commandLineTable = new CommandLineTable();
         commandLineTable.setHeaders("Id", "Name", "Email", "Salary", "Department", "Created At", "Updated At");
         commandLineTable.setShowVerticalLines(true);
+        try {
+            final List<Employee> employees = employeeDao.findAll();
+            employees.forEach(d ->
+                    commandLineTable.addRow(
+                            String.valueOf(d.getId()),
+                            d.getFirstName() + " " + d.getLastName(),
+                            d.getEmail(),
+                            String.valueOf(d.getSalary()),
+                            d.getDepartment().getName(),
+                            String.valueOf(d.getCreatedAt()), String.valueOf(d.getUpdatedAt())
+                    )
+            );
+            commandLineTable.print();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
 
-        final List<Employee> employees = employeeDao.findAll();
-        employees.forEach(d -> {
-            commandLineTable.addRow(String.valueOf(d.getId()),
-                    d.getFirstName() + " " + d.getLastName(),
-                    d.getEmail(),
-                    String.valueOf(d.getSalary()),
-                    d.getDepartment().getName(),
-                    String.valueOf(d.getCreatedAt()), String.valueOf(d.getUpdatedAt()));
-        });
-        commandLineTable.print();
     }
 
     private void displayMenu() {

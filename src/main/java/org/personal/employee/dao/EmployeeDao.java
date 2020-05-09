@@ -2,18 +2,18 @@ package org.personal.employee.dao;
 
 import org.personal.employee.entity.Employee;
 
+import java.sql.SQLException;
 import java.util.List;
-import java.util.Optional;
 
 public interface EmployeeDao {
 
-    Employee save(Employee employee);
+    Employee save(Employee employee) throws SQLException;
 
-    Employee update(Employee employee);
+    Employee update(Employee employee) throws SQLException;
 
-    List<Employee> findAll();
+    List<Employee> findAll() throws SQLException;
 
-    void remove(Long id);
+    void remove(Long id) throws SQLException;
 
-    Optional<Employee> findOne(Long id);
+    Employee findOne(Long id) throws SQLException;
 }

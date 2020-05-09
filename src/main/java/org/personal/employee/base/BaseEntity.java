@@ -26,6 +26,10 @@ public class BaseEntity {
         this.updatedAt = updatedAt;
     }
 
+    public BaseEntity() {
+
+    }
+
     public Long getId() {
         return id;
     }
