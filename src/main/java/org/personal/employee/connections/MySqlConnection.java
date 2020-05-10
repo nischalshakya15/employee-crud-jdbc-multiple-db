@@ -2,15 +2,9 @@ package org.personal.employee.connections;
 
 import org.personal.employee.configuration.PropertiesConfiguration;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-
-public class MySqlConnection {
+public class MySqlConnection extends BaseConnection {
 
     private static MySqlConnection mySqlConnection;
-
-    private static Connection connection;
 
     private static final String URL = PropertiesConfiguration.properties.getProperty("MYSQL.URL");
 
@@ -18,9 +12,10 @@ public class MySqlConnection {
 
     private static final String PASSWORD = PropertiesConfiguration.properties.getProperty("MYSQL.PASSWORD");
 
+    private static final String DRIVER = PropertiesConfiguration.properties.getProperty("MYSQL.DRIVER");
 
     private MySqlConnection() {
-        connection = getConnection();
+        super(URL, USER_NAME, PASSWORD, DRIVER);
     }
 
     public static MySqlConnection getInstance() {
@@ -28,16 +23,5 @@ public class MySqlConnection {
             mySqlConnection = new MySqlConnection();
         }
         return mySqlConnection;
-    }
-
-    public Connection getConnection() {
-        try {
-            if (connection == null) {
-                connection = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
-            }
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-        }
-        return connection;
     }
 }

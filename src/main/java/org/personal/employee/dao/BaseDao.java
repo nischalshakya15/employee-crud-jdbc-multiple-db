@@ -1,6 +1,6 @@
 package org.personal.employee.dao;
 
-import org.personal.employee.connections.MySqlConnection;
+import org.personal.employee.connections.ConnectionFactory;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,6 +15,6 @@ public class BaseDao {
     protected ResultSet resultSet;
 
     protected BaseDao() {
-        connection = MySqlConnection.getInstance().getConnection();
+        connection = ConnectionFactory.getConnection("mysql");
     }
 }

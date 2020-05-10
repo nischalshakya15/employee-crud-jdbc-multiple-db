@@ -46,8 +46,8 @@ public class EmployeeDaoImpl extends BaseDao implements EmployeeDao {
     @Override
     public List<Employee> findAll() throws SQLException {
         final List<Employee> employees = new ArrayList<>();
-        resultSet = connection.prepareStatement("select e.id, e.first_name, e.last_name, e.salary, e.email, e.created_at, " +
-                "e.updated_at, d.name from employees e inner join departments d on e.department_id = d.id").executeQuery();
+        resultSet = connection.prepareStatement("select employees.id, employees.first_name, employees.last_name, employees.salary, employees.email, employees.created_at, " +
+                "employees.updated_at, departments.name from employees inner join departments on employees.department_id = departments.id").executeQuery();
         while (resultSet.next()) {
             employees.add(getEmployee());
         }
@@ -63,8 +63,8 @@ public class EmployeeDaoImpl extends BaseDao implements EmployeeDao {
 
     @Override
     public Employee findOne(Long id) throws SQLException {
-        preparedStatement = connection.prepareStatement("select e.id, e.first_name,e.last_name, e.salary, e.email, e.created_at, " +
-                "e.updated_at, d.name from employees e inner join departments d on e.department_id = d.id where e.id = ?");
+        preparedStatement = connection.prepareStatement("select employees.id, employees.first_name,employees.last_name, employees.salary, employees.email, employees.created_at, " +
+                "employees.updated_at, d.name from employees inner join departments on employees.department_id = departments.id where employees.id = ?");
         preparedStatement.setLong(1, id);
         resultSet = preparedStatement.executeQuery();
         Employee employee = null;
@@ -76,14 +76,14 @@ public class EmployeeDaoImpl extends BaseDao implements EmployeeDao {
 
     private Employee getEmployee() throws SQLException {
         return new Employee(
-                resultSet.getLong("e.id"),
-                resultSet.getString("e.first_name"),
-                resultSet.getString("e.last_name"),
-                resultSet.getString("e.email"),
-                resultSet.getDouble("e.salary"),
-                new Department(resultSet.getString("d.name")),
-                resultSet.getTimestamp("e.created_at").toLocalDateTime(),
-                resultSet.getTimestamp("e.updated_at") != null ? resultSet.getTimestamp("e.updated_at").toLocalDateTime() : null);
+                resultSet.getLong("employees.id"),
+                resultSet.getString("employees.first_name"),
+                resultSet.getString("employees.last_name"),
+                resultSet.getString("employees.email"),
+                resultSet.getDouble("employees.salary"),
+                new Department(resultSet.getString("departments.name")),
+                resultSet.getTimestamp("employees.created_at").toLocalDateTime(),
+                resultSet.getTimestamp("employees.updated_at") != null ? resultSet.getTimestamp("employees.updated_at").toLocalDateTime() : null);
     }
 
     private Employee getEmployee(Employee employee, int rowAffected) throws SQLException {

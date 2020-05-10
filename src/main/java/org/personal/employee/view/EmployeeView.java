@@ -47,6 +47,7 @@ public class EmployeeView {
                 System.out.println("Employee with id " + employee.getId() + " created successfully");
             }
         } catch (Exception e) {
+            e.printStackTrace();
             System.err.println(e.getMessage());
         }
     }
@@ -80,8 +81,8 @@ public class EmployeeView {
                     updateEmployee.setSalary(salary);
                     updateEmployee.setDepartment(department);
                     updateEmployee.setUpdatedAt(LocalDateTime.now());
-                    employeeDao.update(updateEmployee);
-                    System.out.println("Department updated successfully");
+                    updateEmployee = employeeDao.update(updateEmployee);
+                    System.out.println("Department with id " + updateEmployee.getId() + " updated successfully.");
                 } else {
                     System.out.println("Selected department is invalid");
                 }

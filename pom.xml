@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.personal.employee</groupId>
-    <artifactId>employee-crud-jdbc</artifactId>
+    <artifactId>employee-crud-jdbc-multiple-db</artifactId>
     <version>1.0</version>
     <packaging>jar</packaging>
 
@@ -21,10 +21,21 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>6.0.6</version>
         </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.4.199</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+            <version>3.4.5</version>
+        </dependency>
     </dependencies>
 
     <build>
-        <finalName>employee-crud-jdbc</finalName>
+        <finalName>employee-crud-jdbc-multiple-db</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
