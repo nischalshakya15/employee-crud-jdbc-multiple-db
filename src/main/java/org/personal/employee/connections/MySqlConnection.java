@@ -16,6 +16,7 @@ public class MySqlConnection extends BaseConnection {
 
     private MySqlConnection() {
         super(URL, USER_NAME, PASSWORD, DRIVER);
+        System.out.println("MySQL database is connected");
     }
 
     public static MySqlConnection getInstance() {

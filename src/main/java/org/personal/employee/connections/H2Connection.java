@@ -16,6 +16,7 @@ public class H2Connection extends BaseConnection {
 
     private H2Connection() {
         super(URL, USER_NAME, PASSWORD, DRIVER);
+        System.out.println("H2 database is connected");
     }
 
     public static H2Connection getInstance() {

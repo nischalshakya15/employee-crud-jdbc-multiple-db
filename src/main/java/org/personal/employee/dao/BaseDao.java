@@ -1,5 +1,6 @@
 package org.personal.employee.dao;
 
+import org.personal.employee.EmployeeCrudList;
 import org.personal.employee.connections.ConnectionFactory;
 
 import java.sql.Connection;
@@ -15,6 +16,6 @@ public class BaseDao {
     protected ResultSet resultSet;
 
     protected BaseDao() {
-        connection = ConnectionFactory.getConnection("mysql");
+        connection = ConnectionFactory.getConnection(EmployeeCrudList.CONNECTION_TYPE);
     }
 }
