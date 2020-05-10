@@ -1,6 +1,5 @@
 package org.personal.employee.dao;
 
-import org.personal.employee.EmployeeCrudList;
 import org.personal.employee.connections.ConnectionFactory;
 
 import java.sql.Connection;
@@ -13,9 +12,11 @@ public class BaseDao {
 
     protected PreparedStatement preparedStatement;
 
+    public static String CONNECTION_TYPE;
+
     protected ResultSet resultSet;
 
     protected BaseDao() {
-        connection = ConnectionFactory.getConnection(EmployeeCrudList.CONNECTION_TYPE);
+        connection = ConnectionFactory.getConnection(CONNECTION_TYPE);
     }
 }
