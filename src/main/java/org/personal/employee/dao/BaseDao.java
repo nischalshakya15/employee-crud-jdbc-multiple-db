@@ -1,5 +1,6 @@
 package org.personal.employee.dao;
 
+import org.personal.employee.configuration.PropertiesConfiguration;
 import org.personal.employee.connections.ConnectionFactory;
 
 import java.sql.Connection;
@@ -12,7 +13,7 @@ public class BaseDao {
 
     protected PreparedStatement preparedStatement;
 
-    public static String CONNECTION_TYPE;
+    public static final String CONNECTION_TYPE = PropertiesConfiguration.properties.getProperty("ACTIVE.DATABASE");
 
     protected ResultSet resultSet;
 
