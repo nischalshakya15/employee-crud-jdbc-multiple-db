@@ -16,11 +16,13 @@ This application demonstrate how we can change database through command line arg
 * Build the project 
     
     ``mvn package``
+    
+* Edit the **.env.properties** and set **ACTIVE.DATABASE** to **mysql / postgres / h2**
 
-* Copy the **employeemgmt.sql** and **.env.properties** into target folder 
+* Copy the **employeemgmt.sql and employeemgmt-postgres.sql** and **.env.properties** into target folder 
 
 * Run the application. 
 
-    ``java -jar target/employee-crud-jdbc.jar --database=mysql/h2``
+    ``java -jar target/employee-crud-jdbc.jar``
     
-**Note**: **--datbase is an mandatory argument else application will encounter NullPointerException**
+**Note**: **ACTIVE.DATABASE is an mandatory value which should be specified in .env.properties file**
