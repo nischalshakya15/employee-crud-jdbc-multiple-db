@@ -13,6 +13,9 @@ public class ConnectionFactory {
         if (connectionType.equalsIgnoreCase("h2")) {
             connection = H2Connection.getInstance().getConnection();
         }
+        if (connectionType.equalsIgnoreCase("postgres")) {
+            connection = PostgresConnection.getInstance().getConnection();
+        }
         return connection;
     }
 }
