@@ -1,4 +1,4 @@
-## Employee CRUD operation using mysql-jdbc-multiple 
+## Employee CRUD operation using jdbc 
 This application demonstrate how we can change database through command line argument while executing the application.
 
 ## Prerequisites
@@ -12,7 +12,7 @@ This application demonstrate how we can change database through command line arg
 * Configure the database url, username and password in .env.properties.
 * Go through the project directory through command prompt or terminal.
 
-    ``cd employee-crud-jdbc-multiple``
+    ``cd employee-crud-jdbc-multiple-db``
 * Build the project 
     
     ``mvn package``
@@ -22,3 +22,5 @@ This application demonstrate how we can change database through command line arg
 * Run the application. 
 
     ``java -jar target/employee-crud-jdbc.jar --database=mysql/h2``
+    
+**Note**: **--datbase is an mandatory argument else application will encounter NullPointerException**
